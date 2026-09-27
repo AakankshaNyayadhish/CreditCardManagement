@@ -1,0 +1,55 @@
+# =========================================
+# SPRING BOOT / MAVEN / GRADLE BUILD FILES
+# =========================================
+target/
+build/
+.gradle/
+out/
+bin/
+
+# =========================================
+# IDE & EDITOR FILES
+# =========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse / STS
+.settings/
+.classpath
+.project
+*.log
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# =========================================
+# OPERATING SYSTEM JUNK FILES
+# =========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+~*
+.directory
+
+# =========================================
+# ENVIRONMENT & CONFIG SECRETS (SAFETY)
+# =========================================
+# Prevent accidental upload of local config secrets or environment variables
+.env
+application-local.properties
+application-local.yml
