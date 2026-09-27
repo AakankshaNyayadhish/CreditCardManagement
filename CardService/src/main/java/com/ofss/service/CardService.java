@@ -17,6 +17,9 @@ public class CardService {
 	CardRepository cardRepository;
 	
 	public Card issueCard(Card card) {
+		if(card.getStatus()==null) {
+			card.setStatus(CardStatus.ISSUED);
+		}
 		return cardRepository.save(card);
 	}
 	

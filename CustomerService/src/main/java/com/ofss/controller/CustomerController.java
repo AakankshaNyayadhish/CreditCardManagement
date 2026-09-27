@@ -26,8 +26,8 @@ public class CustomerController {
 	
 	@PostMapping("/customers")
 	public ResponseEntity<Customer> insertACustomer(@RequestBody Customer customer) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(customerService.insertACustomer(customer));
-				
+		System.out.println("Reaching Endpoint");
+		return ResponseEntity.status(HttpStatus.CREATED).body(customerService.insertACustomer(customer));		
 	}
 	
 	@GetMapping("/customers")

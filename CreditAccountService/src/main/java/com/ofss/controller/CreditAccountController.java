@@ -44,7 +44,7 @@ public class CreditAccountController {
 	}
 	
 	@GetMapping("/credits/customer/{customerId}")
-	public ResponseEntity<List<CreditAccount>> listCreditAccountByCustomerId(@PathVariable("id") Long customerId) {
+	public ResponseEntity<List<CreditAccount>> listCreditAccountByCustomerId(@PathVariable("customerId") Long customerId) {
 		List<CreditAccount>creditAccounts=creditService.listCreditAccountsByCustomerId(customerId);
 		
 		if(creditAccounts!=null && !creditAccounts.isEmpty()) {

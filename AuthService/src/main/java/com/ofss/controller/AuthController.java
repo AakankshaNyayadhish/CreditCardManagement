@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ofss.Service.AuthService;
+import com.ofss.dto.LoginRequest;
+import com.ofss.dto.UserResponseDTO;
 import com.ofss.entity.User;
 
 @RestController
 public class AuthController {
 	
 	@Autowired
-	private AuthService userService;
+	private AuthService authService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> registerUser(@RequestBody User user){
-		User registeredUser=userService.registerUser(user);
+	public ResponseEntity<UserResponseDTO> registerUser(@RequestBody User user){
+		UserResponseDTO registeredUser=authService.registerUser(user);
 		if(registeredUser==null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
@@ -29,8 +31,8 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> loginUser(@RequestParam String email,@RequestParam String password){
-		User user=userService.loginUser(email, password);
+	public ResponseEntity<UserResponseDTO> loginUser(@RequestBody LoginRequest loginRequest){
+		UserResponseDTO user=authService.loginUser(loginRequest.getEmailId(),loginRequest.getPassword());
 		if(user==null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -38,8 +40,8 @@ public class AuthController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId){
-		User user=userService.getUserById(userId);
+	public ResponseEntity<UserResponseDTO> getUserById(@PathVariable("userId") Long userId){
+		UserResponseDTO user=authService.getUserById(userId);
 		if(user==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}

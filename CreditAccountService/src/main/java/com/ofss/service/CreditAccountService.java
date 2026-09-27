@@ -19,6 +19,9 @@ public class CreditAccountService {
 	CreditAccountRepository creditRepository;
 	
 	public CreditAccount createACreditAccount(CreditAccount credit) {
+		if(credit.getStatus()==null) {
+			credit.setStatus(CreditAccountStatus.ACTIVE);
+		}
 		return creditRepository.save(credit);
 	}
 	
