@@ -1,6 +1,7 @@
 package com.ofss.enums;
 
 public enum CardType {
-	VISA,
-	MASTERCARD
+	SILVER,
+	GOLD,
+	PLATINUM
 }

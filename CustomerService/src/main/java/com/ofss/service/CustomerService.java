@@ -19,12 +19,15 @@ public class CustomerService {
 	}
 	
 	public List<Customer> listAllCustomers(){
-		// here i tried to use "programming to interface concept because it provides us more flexibility"
 		return customerRepository.findAll();
 	}
 	
 	public Optional<Customer> listCustomerById(Long customerId) {
 		return customerRepository.findById(customerId);
+	}
+	
+	public boolean checkCustomerExists(Long customerId) {
+		return customerRepository.existsById(customerId);
 	}
 	
 	public Boolean deleteCustomerById(Long customerId) {
@@ -39,11 +42,10 @@ public class CustomerService {
 		Optional<Customer> optionalCustomer=customerRepository.findById(customerId);
 		if(optionalCustomer.isPresent()) {
 			Customer existingCustomer=optionalCustomer.get();
-			existingCustomer.setFirstName(customer.getFirstName());
-			existingCustomer.setLastName(customer.getLastName());
-			existingCustomer.setPhoneNumber(customer.getPhoneNumber());
-			existingCustomer.setEmailId(customer.getEmailId());
-			existingCustomer.setDateOfBirth(customer.getDateOfBirth());
+			existingCustomer.setCustomerName(customer.getCustomerName());
+			existingCustomer.setEmailAddress(customer.getEmailAddress());
+			existingCustomer.setMobileNumber(customer.getMobileNumber());
+			existingCustomer.setPanNumber(customer.getPanNumber());
 			return customerRepository.save(existingCustomer);
 		}
 		return null;	
@@ -53,23 +55,17 @@ public class CustomerService {
 		Optional<Customer> optionalCustomer=customerRepository.findById(customerId);
 		if(optionalCustomer.isPresent()) {
 			Customer existingCustomer=optionalCustomer.get();
-//			Customer updatedCustomer=new Customer(customerId,customer.getUserId(),
-//					customer.getFirstName(),customer.getLastName(),customer.getPhoneNumber(),
-//					customer.getEmailId(),customer.getDateOfBirth());
-			if(customer.getFirstName()!=null) {
-				existingCustomer.setFirstName(customer.getFirstName());
+			if(customer.getCustomerName()!=null) {
+				existingCustomer.setCustomerName(customer.getCustomerName());
 			}
-			if(customer.getLastName()!=null) {
-				existingCustomer.setLastName(customer.getLastName());
+			if(customer.getEmailAddress()!=null) {
+				existingCustomer.setEmailAddress(customer.getEmailAddress());
 			}
-			if(customer.getPhoneNumber()!=null) {
-				existingCustomer.setPhoneNumber(customer.getPhoneNumber());
+			if(customer.getMobileNumber()!=null) {
+				existingCustomer.setMobileNumber(customer.getMobileNumber());
 			}
-			if(customer.getEmailId()!=null) {
-				existingCustomer.setEmailId(customer.getEmailId());
-			}
-			if(customer.getDateOfBirth()!=null) {
-				existingCustomer.setDateOfBirth(customer.getDateOfBirth());
+			if(customer.getPanNumber()!=null) {
+				existingCustomer.setPanNumber(customer.getPanNumber());
 			}
 			return customerRepository.save(existingCustomer);
 		}

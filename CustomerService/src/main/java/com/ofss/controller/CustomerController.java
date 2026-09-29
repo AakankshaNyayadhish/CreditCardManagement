@@ -26,7 +26,6 @@ public class CustomerController {
 	
 	@PostMapping("/customers")
 	public ResponseEntity<Customer> insertACustomer(@RequestBody Customer customer) {
-		System.out.println("Reaching Endpoint");
 		return ResponseEntity.status(HttpStatus.CREATED).body(customerService.insertACustomer(customer));		
 	}
 	
@@ -35,8 +34,8 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.OK).body(customerService.listAllCustomers());			
 	}
 	
-	@GetMapping("/customers/id/{id}")
-	public ResponseEntity<Customer> listCustomerById(@PathVariable("id") Long customerId) {
+	@GetMapping("/customers/{customerId}")
+	public ResponseEntity<Customer> listCustomerById(@PathVariable("customerId") Long customerId) {
 		Optional<Customer> customer=customerService.listCustomerById(customerId);
 		if(customer.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(customer.get());
@@ -44,16 +43,22 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
-	@DeleteMapping("/customers/id/{id}")
-	public ResponseEntity<Void> deleteCustomerById(@PathVariable("id") Long customerId) {
+	@GetMapping("/internal/customers/{customerId}/exists")
+	public ResponseEntity<Boolean> checkCustomerExists(@PathVariable("customerId") Long customerId){
+		boolean exists=customerService.checkCustomerExists(customerId);
+		return ResponseEntity.status(HttpStatus.OK).body(exists);
+	}
+	
+	@DeleteMapping("/customers/{customerId}")
+	public ResponseEntity<Void> deleteCustomerById(@PathVariable("customerId") Long customerId) {
 		if(customerService.deleteCustomerById(customerId)) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
-	@PutMapping("/customers/id/{id}")
-	public ResponseEntity<Customer> updateCustomerById(@PathVariable("id") Long customerId,@RequestBody Customer customer) {
+	@PutMapping("/customers/{customerId}")
+	public ResponseEntity<Customer> updateCustomerById(@PathVariable("customerId") Long customerId,@RequestBody Customer customer) {
 		Customer updatedCustomer=customerService.updateCustomerById(customerId,customer);
 		if(updatedCustomer!=null) {
 			return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);
@@ -61,8 +66,8 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
-	@PatchMapping("/customers/id/{id}")
-	public ResponseEntity<Customer> updateCustomerPartiallyById(@PathVariable("id") Long customerId,@RequestBody Customer customer) {
+	@PatchMapping("/customers/{customerId}")
+	public ResponseEntity<Customer> updateCustomerPartiallyById(@PathVariable("customerId") Long customerId,@RequestBody Customer customer) {
 		Customer updatedCustomer=customerService.updateCustomerPartiallyById(customerId,customer);
 		if(updatedCustomer!=null) {
 			return ResponseEntity.status(HttpStatus.OK).body(updatedCustomer);

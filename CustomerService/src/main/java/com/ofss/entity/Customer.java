@@ -1,86 +1,81 @@
 package com.ofss.entity;
 
-import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="CUSTOMER")
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="CUSTOMER_ID")
 	private Long customerId;
-	private Long userId;
-	private String firstName;
-	private String lastName;
-	private Long phoneNumber;
-	private String emailId;
-	private LocalDate dateOfBirth;
+	
+	@Column(name="CUSTOMER_NAME",nullable = false)
+	private String customerName;
+	
+	@Column(name="EMAIL_ADDRESS",unique=true,nullable = false)
+	private String emailAddress;
+	
+	@Column(name="MOBILE_NUMBER",nullable = false)
+	private String mobileNumber;
+	
+	@Column(name="PAN_NUMBER",unique=true,nullable = false)
+	private String panNumber;
+	
 	public Customer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public Customer(Long customerId, Long userId, String firstName, String lastName, Long phoneNumber, String emailId,
-			LocalDate dateOfBirth) {
-		super();
-		this.customerId = customerId;
-		this.userId = userId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.emailId = emailId;
-		this.dateOfBirth = dateOfBirth;
-	}
+
 	public Long getCustomerId() {
 		return customerId;
 	}
+
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
-	public Long getUserId() {
-		return userId;
+
+	public String getCustomerName() {
+		return customerName;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
-	public String getFirstName() {
-		return firstName;
+
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
-	public String getLastName() {
-		return lastName;
+
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
-	public Long getPhoneNumber() {
-		return phoneNumber;
+
+	public String getPanNumber() {
+		return panNumber;
 	}
-	public void setPhoneNumber(Long phoneNumber) {
-		this.phoneNumber = phoneNumber;
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", userId=" + userId + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", dateOfBirth=" + dateOfBirth
-				+ "]";
+		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", emailAddress="
+				+ emailAddress + ", mobileNumber=" + mobileNumber + ", panNumber=" + panNumber + "]";
 	}
-	
 	
 }

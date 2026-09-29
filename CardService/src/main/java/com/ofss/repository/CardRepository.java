@@ -6,6 +6,6 @@ import com.ofss.entity.Card;
 import java.util.List;
 
 @Repository
-public interface CardRepository extends JpaRepository<Card, Long> {
+public interface CardRepository extends JpaRepository<Card, String> {
 	List<Card> findByCustomerId(Long customerId);
 }
