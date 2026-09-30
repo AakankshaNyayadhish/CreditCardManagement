@@ -56,8 +56,7 @@ public class ReportGeneratorService {
                 get(cardClient, "/reports/customers/highest-outstanding"));
         report.put("lowestOutstandingCustomer",
                 get(cardClient, "/reports/customers/lowest-outstanding"));
-        report.put("blockedCards",
-                get(cardClient, "/reports/cards/blocked"));
+        report.put("blockedCards", get(cardClient, "/reports/cards/blocked"));
         report.put("lowAvailableCreditCards",
                 get(cardClient, "/reports/cards/low-credit"));
         report.put("totalOutstandingAmount",
@@ -103,6 +102,17 @@ public class ReportGeneratorService {
         }
 
         return report;
+    }
+
+    public Object getReportSection(String sectionName) {
+        Map<String, Object> report = getLatestReport();
+        Object section = report.get(sectionName);
+
+        if (section == null) {
+            throw new IllegalArgumentException("Requested report section does not exist.");
+        }
+
+        return section;
     }
 
     private Object get(WebClient client, String endpoint) {

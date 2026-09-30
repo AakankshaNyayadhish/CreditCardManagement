@@ -1,6 +1,8 @@
 package com.ofss.service;
 
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -72,6 +74,46 @@ public class CardService {
     
     public List<Card> listCardsByCustomerId(Long customerId) {
         return cardRepository.findByCustomerId(customerId);
+    }
+
+    public List<Card> getBlockedCards() {
+        return cardRepository.findAll().stream()
+                .filter(card -> card.getStatus() == CardStatus.BLOCKED)
+                .toList();
+    }
+
+    public List<Card> getLowAvailableCreditCards() {
+        return cardRepository.findAll().stream()
+                .filter(card -> card.getCreditLimit() != null && card.getAvailableCredit() != null)
+                .filter(card -> card.getAvailableCredit() < card.getCreditLimit() * 0.20)
+                .toList();
+    }
+
+    public double getTotalOutstandingAmount() {
+        return cardRepository.findAll().stream()
+                .map(Card::getOutstandingAmount)
+                .filter(amount -> amount != null)
+                .mapToDouble(Double::doubleValue)
+                .sum();
+    }
+
+    public Map<String, Object> getCustomerOutstanding(boolean highest) {
+        Map<Long, Double> outstandingByCustomer = new LinkedHashMap<>();
+        for (Card card : cardRepository.findAll()) {
+            outstandingByCustomer.merge(card.getCustomerId(), card.getOutstandingAmount(), Double::sum);
+        }
+
+        Map.Entry<Long, Double> result = outstandingByCustomer.entrySet().stream()
+                .sorted((left, right) -> highest
+                        ? Double.compare(right.getValue(), left.getValue())
+                        : Double.compare(left.getValue(), right.getValue()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No cards are available."));
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("customerId", result.getKey());
+        response.put("outstandingAmount", result.getValue());
+        return response;
     }
     
     @Transactional

@@ -9,6 +9,7 @@ import com.ofss.entity.Card;
 import com.ofss.service.CardService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CardController {
@@ -43,6 +44,31 @@ public class CardController {
             return ResponseEntity.status(HttpStatus.OK).body(cards);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/reports/customers/highest-outstanding")
+    public ResponseEntity<Map<String, Object>> highestOutstandingCustomer() {
+        return ResponseEntity.ok(cardService.getCustomerOutstanding(true));
+    }
+
+    @GetMapping("/reports/customers/lowest-outstanding")
+    public ResponseEntity<Map<String, Object>> lowestOutstandingCustomer() {
+        return ResponseEntity.ok(cardService.getCustomerOutstanding(false));
+    }
+
+    @GetMapping("/reports/cards/blocked")
+    public ResponseEntity<List<Card>> blockedCards() {
+        return ResponseEntity.ok(cardService.getBlockedCards());
+    }
+
+    @GetMapping("/reports/cards/low-credit")
+    public ResponseEntity<List<Card>> lowCreditCards() {
+        return ResponseEntity.ok(cardService.getLowAvailableCreditCards());
+    }
+
+    @GetMapping("/reports/outstanding/total")
+    public ResponseEntity<Double> totalOutstandingAmount() {
+        return ResponseEntity.ok(cardService.getTotalOutstandingAmount());
     }
 
     // INTERNAL ENDPOINTS CALLED BY TRANSACTION SERVICE
