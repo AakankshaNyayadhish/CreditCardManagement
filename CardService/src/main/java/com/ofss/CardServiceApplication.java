@@ -6,6 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.ofss.config.JwtForwardingInterceptor;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class CardServiceApplication {
@@ -16,8 +18,13 @@ public class CardServiceApplication {
 	}
 	
 	@Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+	public RestTemplate restTemplate(
+	        JwtForwardingInterceptor interceptor) {
+
+	    RestTemplate restTemplate = new RestTemplate();
+	    restTemplate.getInterceptors().add(interceptor);
+
+	    return restTemplate;
+	}
 
 }

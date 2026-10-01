@@ -42,6 +42,12 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private TransactionStatus status;
+    
+    @Column(name = "REWARD_POINTS", nullable = false)
+    private Long rewardPoints = 0L;
+    
+    @Column(name = "CASHBACK_AMOUNT", nullable = false)
+    private Double cashbackAmount = 0.0;
 
     public Transaction() {
     }
@@ -102,5 +108,21 @@ public class Transaction {
 
     public void setStatus(TransactionStatus status) {
         this.status = status;
+    }
+    
+    public Long getRewardPoints() {
+        return rewardPoints;
+    }
+
+    public void setRewardPoints(Long rewardPoints) {
+        this.rewardPoints = rewardPoints;
+    }
+    
+    public Double getCashbackAmount() {
+        return cashbackAmount;
+    }
+
+    public void setCashbackAmount(Double cashbackAmount) {
+        this.cashbackAmount = cashbackAmount;
     }
 }

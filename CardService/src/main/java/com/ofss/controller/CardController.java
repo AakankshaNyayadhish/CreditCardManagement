@@ -57,6 +57,18 @@ public class CardController {
         boolean success = cardService.processPayment(cardNumber, amount);
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
+    
+    @PutMapping("/cards/{cardNumber}")
+    public ResponseEntity<Card> updateCard(@PathVariable String cardNumber,@RequestBody Card card) {
+        Card updatedCard =
+                cardService.updateCard(cardNumber, card);
+
+        if (updatedCard != null) {
+            return ResponseEntity.ok(updatedCard);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 
     @PatchMapping("/cards/{cardNumber}/block")
     public ResponseEntity<Card> blockCard(@PathVariable("cardNumber") String cardNumber) {

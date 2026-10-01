@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -62,5 +64,72 @@ public class TransactionController {
 		}
 
 		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/search/date-range")
+	public ResponseEntity<List<Transaction>> searchByDateRange(
+	        @RequestParam LocalDateTime from,
+	        @RequestParam LocalDateTime to) {
+
+	    return ResponseEntity.ok(
+	            transactionService.searchByDateRange(from, to)
+	    );
+	}
+
+	@GetMapping("/search/merchant/{merchantId}")
+	public ResponseEntity<List<Transaction>> searchByMerchant(
+	        @PathVariable Long merchantId) {
+
+	    return ResponseEntity.ok(
+	            transactionService.searchByMerchant(merchantId)
+	    );
+	}
+
+	@GetMapping("/search/amount")
+	public ResponseEntity<List<Transaction>> searchByAmount(
+	        @RequestParam Double minimum,
+	        @RequestParam Double maximum) {
+
+	    return ResponseEntity.ok(
+	            transactionService.searchByAmount(minimum, maximum)
+	    );
+	}
+	
+	@GetMapping("/rewards/card/{cardNumber}")
+	public ResponseEntity<Long> getRewardPointsByCard(
+	        @PathVariable String cardNumber) {
+
+	    Long totalPoints =
+	            transactionService.getRewardPointsByCard(cardNumber);
+
+	    return ResponseEntity.ok(totalPoints);
+	}
+	
+	@GetMapping("/cashback/card/{cardNumber}")
+	public ResponseEntity<Double> getCashbackByCard(
+	        @PathVariable String cardNumber) {
+
+	    Double cashback =
+	            transactionService.getCashbackByCard(cardNumber);
+
+	    return ResponseEntity.ok(cashback);
+	}
+	
+	@GetMapping("/late-payment-penalty")
+	public ResponseEntity<Double> calculateLatePaymentPenalty(
+	        @RequestParam("cardNumber") String cardNumber,
+	        @RequestParam("dueDate") String dueDate,
+	        @RequestParam("paymentDate") String paymentDate) {
+
+	    LocalDate due = LocalDate.parse(dueDate);
+	    LocalDate payment = LocalDate.parse(paymentDate);
+
+	    Double penalty = transactionService.calculateLatePaymentPenalty(
+	            cardNumber,
+	            due,
+	            payment
+	    );
+
+	    return ResponseEntity.ok(penalty);
 	}
 }
